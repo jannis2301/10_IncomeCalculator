@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="An app to calculate the monthly expenses of a family"
+    />
+    <link rel="stylesheet" href="src/style.css" />
+    <title>Income calculator</title>
+  </head>
+  <body>
+    <h1 class="headline">Einkommensrechner</h1>
+    <div class="calculator-container" data-calculator>
+      <form class="form-container">
+        <div class="input-fields-container">
+          <div class="income-container">
+            <div class="net-income">
+              <p class="income-label">Jahresnettoeinkommen (EUR):</p>
+              <input
+                type="number"
+                id="person1"
+                name="income"
+                placeholder="Person 1"
+              />
+              <input
+                type="number"
+                id="person2"
+                name="income"
+                placeholder="Person 2"
+              />
+              <div class="button person-button">+ Add Person</div>
+            </div>
+            <div class="further-income">
+              <p class="income-label">Weitere Einnahmen in Form von:</p>
+              <input
+                type="number"
+                id="kindergeld"
+                name="income"
+                placeholder="Kindergeld"
+              />
+              <input
+                type="number"
+                id="kinderzuschlag"
+                name="income"
+                placeholder="Kinderzuschlag"
+              />
+              <input
+                type="number"
+                id="wohngeld"
+                name="income"
+                placeholder="Wohngeld"
+              />
+              <input
+                type="number"
+                id="elterngeld"
+                name="income"
+                placeholder="Elterngeld"
+              />
+              <input
+                type="number"
+                id="sonstiges-income"
+                name="income"
+                placeholder="Sonstiges"
+              />
+            </div>
+          </div>
+
+          <div class="expenses-container">
+            <p class="income-label">Ausgaben (EUR):</p>
+            <div class="expenses-input-fields">
+              <input
+                type="number"
+                id="miete"
+                name="expenses"
+                placeholder="Miete"
+              />
+              <input
+                type="number"
+                id="strom"
+                name="expenses"
+                placeholder="Strom"
+              />
+              <input
+                type="number"
+                id="internet"
+                name="expenses"
+                placeholder="Internet"
+              />
+              <input
+                type="number"
+                id="essen"
+                name="expenses"
+                placeholder="Essen"
+              />
+              <input
+                type="number"
+                id="kleidung"
+                name="expenses"
+                placeholder="Kleidung"
+              />
+              <input
+                type="number"
+                id="reisen"
+                name="expenses"
+                placeholder="Reisen"
+              />
+              <input
+                type="number"
+                id="versicherungen"
+                name="expenses"
+                placeholder="Versicherungen"
+              />
+              <input
+                type="number"
+                id="sonstiges-expenses"
+                name="expenses"
+                placeholder="Sonstiges"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="button-container">
+          <button
+            class="button submit-button"
+            type="button"
+            data-calculator-submit=""
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+      <div class="output-overlay" data-calculator-output="">
+        <div class="output-container"></div>
+      </div>
+    </div>
+    <script type="module" src="/src/index.ts"></script>
+  </body>
+</html>
