@@ -1,10 +1,48 @@
+/* jetbrains-mono-regular - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/jetbrains-mono-v18-latin-regular.woff2') format('woff2');
+}
+
+/* jetbrains-mono-700 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  src: url('./fonts/jetbrains-mono-v18-latin-700.woff2') format('woff2');
+}
+
 :root {
   /* Colors */
   --primary-color: #3382c3;
+  --button-background-color: #4dd80e;
+  --button-background-color--hover: #12c69a;
   --color-white: #fff;
   --color-black: #000;
+  --linear-gradient: linear-gradient(
+    -180deg,
+    var(--primary-color),
+    var(--color-black)
+  );
 
-  --animation-transition: all 0.2s ease-in-out;
+  /* Fonts */
+  --primary-font: 'JetBrains Mono', monospace, sans-serif;
+  --fs-headline: clamp(1.1rem, 3vw, 1.4rem);
+  --lh-headline: clamp(1.3rem, 3vw, 1.6rem);
+  --fs-text: clamp(0.9rem, 3vw, 1rem);
+  --lh-text: clamp(1.1rem, 3vw, 1.2rem);
+  --fw-regular: 400;
+  --fw-bold: 700;
+
+  /* Other Variables */
+  --text-shadow: -2px 2px 5px rgba(0, 0, 0, 0);
+  --border-radius--5: 5px;
+  --border-radius--10: 10px;
+  --animation-transition: all 0.2s;
 }
 
 html {
@@ -21,14 +59,13 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background: linear-gradient(
-    -180deg,
-    var(--primary-color),
-    var(--color-black)
-  );
-  color: var(--color-white);
   min-height: 100vh;
-  text-shadow: -2px 2px 5px rgba(0, 0, 0, 0);
+  background: var(--linear-gradient);
+  color: var(--color-white);
+  font-family: var(--primary-font);
+  font-size: var(--fs-text);
+  line-height: var(--lh-text);
+  text-shadow: var(--text-shadow);
 }
 
 h1,
@@ -37,14 +74,17 @@ p {
 }
 
 input {
-  border: none;
   padding: 0.5rem;
+  font-family: inherit;
+  border: none;
+  border-radius: var(--border-radius--5);
 }
 
 .headline {
   padding: 0.6rem 0;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: var(--fs-headline);
+  line-height: var(--lh-headline);
 }
 
 .calculator-container {
@@ -88,8 +128,11 @@ input {
 
 .button {
   padding: 0.5rem;
+  font-family: inherit;
+  font-size: var(--fs-text);
+  line-height: var(--lh-text);
   color: var(--color-black);
-  border-radius: 5px;
+  border-radius: var(--border-radius--5);
   border: none;
   cursor: pointer;
 
@@ -98,38 +141,42 @@ input {
 
 .submit-button,
 .person-button {
-  background-color: #4dd80e;
+  background-color: var(--button-background-color);
 
   &:hover {
-    background-color: #12c69a;
+    background-color: var(--button-background-color--hover);
   }
 }
 
 .output-overlay,
 .output-container {
+  --overlay-position: 50%;
+  position: fixed;
+  top: var(--overlay-position);
+  left: var(--overlay-position);
+  transform: translate(
+    calc(var(--overlay-position) * -1),
+    calc(var(--overlay-position) * -1)
+  );
+  transition: var(--animation-transition);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: var(--animation-transition);
 }
 
 .output-overlay {
+  --overlay-size: 100%;
   content: '';
-  width: 100%;
-  height: 100%;
+  width: var(--overlay-size);
+  height: var(--overlay-size);
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1;
 }
 
 .output-container {
-  --container-size: 400px;
+  --container-size: 32rem;
   width: 90vw;
   max-width: var(--container-size);
-  padding: 3rem 1rem;
+  padding: 3.5rem 1rem;
   background-color: var(--color-white);
   color: var(--color-black);
   display: grid;
@@ -137,13 +184,20 @@ input {
   align-items: center;
   gap: 0.6rem;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  z-index: 5;
+  border-radius: var(--border-radius--10);
 }
 
 .output-container ul {
   display: grid;
-  row-gap: 10px;
+  row-gap: 0.6rem;
+}
+
+.output-container li p {
+  font-weight: var(--fw-bold);
+}
+
+.output-container li p:first-child {
+  padding-bottom: 0.4rem;
 }
 
 .output-overlay.fadeIn,
@@ -154,14 +208,12 @@ input {
 }
 
 .close-button {
-  position: absolute;
-  top: 0px;
-  right: 8px;
-  font-size: 2rem;
-  background-color: inherit;
-  z-index: 10;
+  --button-position: clamp(12px, 4vw, 18px);
+  --button-size: clamp(2.2rem, 4vw, 2.5rem);
 
-  &:hover {
-    color: rgba(0, 0, 0, 0.7);
-  }
+  position: absolute;
+  top: var(--button-position);
+  right: var(--button-position);
+  font-size: var(--button-size);
+  background-color: inherit;
 }
