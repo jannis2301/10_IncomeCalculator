@@ -13,7 +13,6 @@ export class Calculator {
   private outputContainer: HTMLElement;
   private personButton: HTMLButtonElement;
   private submitButton: HTMLButtonElement;
-  private personCounter: number = 3;
 
   constructor(el: HTMLElement) {
     this.el = el;
@@ -28,7 +27,10 @@ export class Calculator {
     );
 
     /* Output Container */
-    this.outputContainer = getElementBySelector('[data-calculator-output]');
+    this.outputContainer = getElementBySelector(
+      '[data-calculator-output]',
+      this.el
+    );
 
     /* Buttons */
     this.submitButton = getElementBySelector<HTMLButtonElement>(
@@ -46,7 +48,13 @@ export class Calculator {
   }
 
   private addPersonInputField(): void {
-    const personNumber = this.personCounter++;
+    const personInputFields = Array.from(this.incomeInputFields).filter(
+      (field) => field.id.startsWith('person')
+    );
+    const lastPersonInputField =
+      personInputFields[personInputFields.length - 1];
+
+    const personNumber = parseInt(lastPersonInputField.id.slice(-1)) + 1;
     const newInputFieldTemplate = `
       <input id="person${personNumber}" type="number" name="income" placeholder="Person ${personNumber}"/>
     `;
@@ -64,18 +72,11 @@ export class Calculator {
     return sumInputValues(this.expensesInputFields);
   }
 
-  private totalSurplus(): number {
+  private totalGain(): number {
     return this.totalIncome() - this.totalExpenses();
   }
 
   /* Calculator output logic */
-
-  private setupCloseButton(): void {
-    const closeButton = getElementBySelector('.close-button', this.el);
-    closeButton.addEventListener('click', () => {
-      this.hideOutputContainer();
-    });
-  }
 
   private showOutputContainer(): void {
     this.outputContainer.classList.add('fadeIn');
@@ -85,33 +86,40 @@ export class Calculator {
     this.outputContainer.classList.remove('fadeIn');
   }
 
+  private setupCloseButton(): void {
+    const closeButton = getElementBySelector('.close-button', this.el);
+    closeButton.addEventListener('click', () => {
+      this.hideOutputContainer();
+    });
+  }
+
   private calculatorOutput(): void {
     const calculatorOutputTemplate = `
     <button class="button close-button" type="button">&times;</button>
     <ul>
       <li>
         <p>Monatliche Einnahmen gesamt:</p>
-        <p>${formatCurrency(this.totalIncome() / 12, '€')}</p>
-      </li>
-      <li>
-        <p>Monatliche Ausgaben gesamt:</p>
-        <p>${formatCurrency(this.totalExpenses() / 12, '€')}</p>
-      </li>
-      <li>
-        <p>Monatlicher Gewinn gesamt:</p>
-        <p>${formatCurrency(this.totalSurplus() / 12, '€')}</p>
-      </li>
-      <li>
-        <p>Jährliche Einnahmen gesamt:</p>
         <p>${formatCurrency(this.totalIncome(), '€')}</p>
       </li>
       <li>
-        <p>Jährliche Ausgaben gesamt:</p>
+        <p>Monatliche Ausgaben gesamt:</p>
         <p>${formatCurrency(this.totalExpenses(), '€')}</p>
       </li>
       <li>
+        <p>Monatlicher Gewinn gesamt:</p>
+        <p>${formatCurrency(this.totalGain(), '€')}</p>
+      </li>
+      <li>
+        <p>Jährliche Einnahmen gesamt:</p>
+        <p>${formatCurrency(this.totalIncome() * 12, '€')}</p>
+      </li>
+      <li>
+        <p>Jährliche Ausgaben gesamt:</p>
+        <p>${formatCurrency(this.totalExpenses() * 12, '€')}</p>
+      </li>
+      <li>
         <p>Jährlicher Gewinn gesamt:</p>
-        <p>${formatCurrency(this.totalSurplus(), '€')}</p>
+        <p>${formatCurrency(this.totalGain() * 12, '€')}</p>
       </li>
     </ul>
   `;
